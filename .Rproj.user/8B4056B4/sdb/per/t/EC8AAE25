@@ -1,0 +1,16 @@
+{
+    "contents" : "## app.R ##\nlibrary(shiny)\nlibrary(datasets)\nlibrary(agricolae)\nlibrary(multcomp)\nlibrary(MASS)\nlibrary(lmtest)\n\ndataset <- read.table(\"pipocabitch.txt\",h=T)\n\ndataset$fator <- as.factor(dataset$fator)\n\nfat1 <- factor(fator,labels = c(\"óleo\",\"azeite\",\"margarina\",\"manteiga\"))\n\n\nserver <- function(input,output){\n  \n  output$dados <- renderDataTable({dataset})\n  \n  output$bp <- renderPlot({\n    boxplot(dataset$pirua~fat1,\n              data=dataset,outline = input$outliers,\n              col=\"skyblue\",xlab=\"Tratamentos\"\n            )\n  })\n  \n}",
+    "created" : 1432093732172.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2993321025",
+    "id" : "EC8AAE25",
+    "lastKnownWriteTime" : 1432107974,
+    "path" : "~/Área de Trabalho/popcorn/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
