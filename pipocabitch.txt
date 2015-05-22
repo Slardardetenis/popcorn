@@ -1,4 +1,4 @@
-fator	pirua
+fator	perua
 1	18
 1	17
 1	12

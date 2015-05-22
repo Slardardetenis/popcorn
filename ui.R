@@ -77,10 +77,38 @@ body <- dashboardBody(
                               )
                           )
                       ),
-              tabItem(tabName="diag"
+              tabItem(tabName="diag",
+                      fluidPage(
+                                  mainPanel(
+                                              h1(strong("Suposições para Anova")),
+                                              h2("I) A distribuição em cada grupo deve ser uma normal;"),
+                                              h2("II) Erros distribuidos segundo uma normal com média zero e variância constante constante igual em todos os grupos;"),
+                                              h2("III) Independência dos erros."),
+                                              br(),
+                                              h2("Valores ajustados x Resíduos"),
+                                              plotOutput("res"),
+                                              h3("Apesar de uma parte dos dados ficar distante da outra vemos um padrão de 'cone'.",style="color:red"),
+                                              h2("Vamos usar a transformação de box-cox para tentar acabar com essa tendencia nos resíduos."),
+                                              plotOutput("boxcox"),
+                                              h2("Portando com lambda igual a zero temos uma transformação logarítimica."),
+                                              h2("Valores ajustados x Resíduos"),
+                                              plotOutput("res1"),
+                                              h2("Sendo mais rigoro e usando o teste C de Cochran"),
+                                              verbatimTextOutput("coch"),
+                                              h2("Portanto os grupos não são homocedásticos.",style="color:red"),
+                                              h2("qqnorm dos Resíduos"),
+                                              plotOutput("res2"),
+                                              h2("Os resíduos parecem ter distribuição normal."),
+                                              h2("Usando o teste de Durbin-Watson para verificar se os erros são correlacionados ou não."),
+                                              verbatimTextOutput("durbin"),
+                                              h2("Vemos que os resíduos são correlacionados."),
+                                              h2("Agora vamos ver como ficam cada um dos tratamentos no qqnorm.")
+                                              
+                                            )
                         
+                                )
                       )
-            )
+      )
   )
 
 dashboardPage(header, sidebar, body, skin="purple")
