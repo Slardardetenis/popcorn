@@ -1,13 +1,14 @@
 ## ui.R ##
 library(shiny)
 library(shinydashboard)
+library(shinythemes)
 
-ui <-
+ui <- 
   
 header <- dashboardHeader(title="Popcorn Methods",
       dropdownMenu(type="messages",icon = icon("question"),
                     messageItem(from="Any questions",
-                                  message = a(href="https://github.com/Slardardetenis/dashshiny", "Do not forget to check out my code.")
+                                  message = a(href="https://github.com/Slardardetenis/popcorn", "Do not forget to check out my code.")
                                 )
                   )
   )
@@ -16,8 +17,11 @@ sidebar <- dashboardSidebar(
     sidebarMenu(
                   menuItem("dados", tabName = "dados", icon = icon("database")),
                   menuItem("Introdução", tabName = "intro", icon = icon("th")),
-                  menuItem("Diagnóstico do Modelo", tabName = "diag", icon = icon("area-chart")),
-                  menuItem("Estatística Descritiva", tabName = "desc", icon = icon("bar-chart"))                           
+                  menuItem("Diagnóstico do Modelo", tabName = "diag", icon = icon("warning")),
+                  menuItem("Estatística Descritiva", tabName = "desc", icon = icon("bar-chart")),
+                  menuItem("Anova", tabName="anover", icon = icon("line-chart")),
+                  menuItem("Comparações Múltiplas", tabName="comp", icon =icon("area-chart")),
+                  menuItem("Grupo", tabName="grup", icon = icon("users"))
                 )  
   )
 
@@ -78,7 +82,7 @@ body <- dashboardBody(
                           )
                       ),
               tabItem(tabName="diag",
-                      fluidPage(
+                      fluidPage(theme = shinytheme("flatly"),
                                   mainPanel(
                                               h1(strong("Suposições para Anova")),
                                               h2("I) A distribuição em cada grupo deve ser uma normal;"),
@@ -94,20 +98,56 @@ body <- dashboardBody(
                                               h2("Valores ajustados x Resíduos"),
                                               plotOutput("res1"),
                                               h2("Sendo mais rigoro e usando o teste C de Cochran"),
-                                              verbatimTextOutput("coch"),
+                                              strong(verbatimTextOutput("coch")),
                                               h2("Portanto os grupos não são homocedásticos.",style="color:red"),
                                               h2("qqnorm dos Resíduos"),
                                               plotOutput("res2"),
                                               h2("Os resíduos parecem ter distribuição normal."),
                                               h2("Usando o teste de Durbin-Watson para verificar se os erros são correlacionados ou não."),
-                                              verbatimTextOutput("durbin"),
+                                              strong(verbatimTextOutput("durbin")),
                                               h2("Vemos que os resíduos são correlacionados."),
-                                              h2("Agora vamos ver como ficam cada um dos tratamentos no qqnorm.")
+                                              h2("Agora vamos ver como ficam cada um dos tratamentos no qqnorm."),
+                                              plotOutput("allqq"),
+                                              h2(strong("Com as informaçoes acima vemos que nossos dados não cumprem todos presupostos para Anova. Mas você pode clicar na Aba 'Anova' para ver como ficou.",style="color:red"))
                                               
                                             )
                         
                                 )
-                      )
+                      ),
+            tabItem(tabName="comp",
+                      fluidPage(
+                                              h1(strong("Teste de Tukey")),
+                                              selectInput("selec",h2("Tipo de Dados:"),
+                                                            list("Dados Transformados"="dadost",
+                                                            "Dados sem transformação"="dadosn")
+                                                          ),
+                                              strong(verbatimTextOutput("text"),style="color:green"),
+                                              plotOutput("compar")
+                                            
+                                    
+                                )
+                    ),
+            tabItem(tabName="anover",
+                      selectInput("sela",h2("Anova"),
+                                  list("Dados Transformados"="dadost",
+                                       "Dados sem transformação"="dadosn")
+                                  ),
+                      
+                      strong(verbatimTextOutput("anova")),
+                      h2(strong("Com os dados transformados ou não o p-valor é muito pequeno, 
+                             o que nos faria rejeitar a hipótese nula. Ou seja pelo menos uma média dos tratamentos não é igual à outra."))
+                    ),
+            tabItem(tabName="grup",
+                      h2("Giovani Carrara Rodrigues 7151669"),
+                      h2("Juliana Barbosa"),
+                      h2("Vitor Bonini"),
+                      h2("Marília Coser"),
+                      br(),
+                      br(),
+                      infoBox(icon=icon("beer"),
+                                tags$a(href="http://github.com/Slardardetenis/popcorn","Shiny app made by Slardar de tenis")
+                              )
+                    )
       )
   )
 
