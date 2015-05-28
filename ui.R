@@ -47,37 +47,12 @@ body <- dashboardBody(
                             titlePanel(h1(strong("Informações sobre a pesquisa",style="color:black"))),
                             mainPanel(
                                 br(),
-                                h3("O objetivo da pesquisa é determinar qual método de se fazer pipoca é o mais eficiente. No procedimento vamos levar em conta a quantidade de peruá(milho de pipoca que não estoura) resultante dos seguintes métodos(tratamentos):"),
-                                h3("Óleo, Azeite, Margarina e Manteiga.",style="color:blue"),
+                                h3("O problema proposto na disciplina Planejamento de experimentos I, ministrada pelo",span("professor Dr. Marinho",style="color:blue"), "foi determinar qual tratamento seria o mais eficiente na questão de aproveitamento de milhos estourados nos tratamentos."),
+#                                 h3("Óleo, Azeite, Margarina e Manteiga.",style="color:blue"),
                                 br(),
                                 h1(strong("Procedimento",style="color:black")),
                                 br(),
-                                h2("Óleo e Azeite:",style="color:blue"),
-                                h3(span("Quantidade:",style="color:green"), "3 colheres de sopa."),
-                                h3(span("tempo de preparo:",style="color:green"), "3 minutos no mínimo, a panela só é retirada do fogo se o intervalo entre um estouro e outro for maior que 5 segundos."),
-                                br(),
-                                h2("Margarina e Manteiga:",style="color:blue"),
-                                h3(span("Quantidade:",style="color:green"), "2 colheres de sopa bem fartas."),
-                                h3(span("tempo de preparo:",style="color:green"), "5 minutos no mínimo, a panela só é retirada do fogo se o intervalo entre um estouro e outro for maior que 5 segundos."),
-                                br(),
-                                h1(strong("Observaçoes:",style="color:black")),
-                                br(),
-                                h3("A quantidade de pipoca para todas as amostras foi meio copo de requeijão;",style="color:red"),
-                                h3("Os procedimentos foram feitos na mesma panela, onde essa éra um pipoqueira;",style="color:red"),
-                                h3("Em todas as 20 vezes a manivela era girada sempre em baixa rotação;",style="color:red"),
-                                h3("Após cada uso, a panela era lavada e secada;",style="color:red"),
-                                h3("Uma milho mal estourado éra considerado um peruá se seu tamanho fosse pequeno e se a cor de peruá fosse mais de 50% do seu corpo.",style="color:red")
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
+                                h2("Em uma panela própria para pipoca (pipoqueira),selecionamos 20 amostras de milhos de 100 gramas, 600 grãos de milhos, utilizando 5 amostras para cada tratamento sendo:", span("azeite, óleo, margarina e manteiga",style="color:red"), ",com 2 colheres de sopa de cada ingrediente nos respectivos tratamentos. Após cada coleta de amostra a panela era lavada, secada e resfriada, sendo mexida durante todo o tempo. Este tempo foi determinado por uma amostra piloto, onde se obteve o tempo de 4 minutos de permanencia no fogo alto.")
                               )
                           )
                       ),
@@ -85,6 +60,7 @@ body <- dashboardBody(
                       fluidPage(theme = shinytheme("flatly"),
                                   mainPanel(
                                               h1(strong("Suposições para Anova")),
+                                              h2("Para utilizarmos a analise de variancia temos antes que verificar se os dados possuem requisitos necessarios. As suposiçoes para o uso desta, são:"),
                                               h2("I) A distribuição em cada grupo deve ser uma normal;"),
                                               h2("II) Erros distribuidos segundo uma normal com média zero e variância constante constante igual em todos os grupos;"),
                                               h2("III) Independência dos erros."),
@@ -108,7 +84,7 @@ body <- dashboardBody(
                                               h2("Vemos que os resíduos são correlacionados."),
                                               h2("Agora vamos ver como ficam cada um dos tratamentos no qqnorm."),
                                               plotOutput("allqq"),
-                                              h2(strong("Com as informaçoes acima vemos que nossos dados não cumprem todos presupostos para Anova. Mas você pode clicar na Aba 'Anova' para ver como ficou.",style="color:red"))
+                                              h2(strong("Com as informaçoes acima vemos que nossos dados não cumprem todos pressupostos para Anova. Mesmo assim fizemos a análise para mostrar o estudo. Você pode ver clicando no menu 'ANOVA'",style="color:red"))
                                               
                                             )
                         
@@ -117,18 +93,27 @@ body <- dashboardBody(
             tabItem(tabName="comp",
                       fluidPage(
                                               h1(strong("Teste de Tukey")),
-                                              selectInput("selec",h2("Tipo de Dados:"),
+                                              selectInput("selec",h2("Tipo de Dados:"),selected="Dados sem transformação",
                                                             list("Dados Transformados"="dadost",
                                                             "Dados sem transformação"="dadosn")
                                                           ),
                                               strong(verbatimTextOutput("text"),style="color:green"),
-                                              plotOutput("compar")
+                                              plotOutput("compar"),
+#                                               h2(strong("Uma importante observação, é lembrarmos que mesmo transformando os dados não conseguimos comprir os presupostos para a anova,
+#                                                         Observando os intervalos de confiança acima('essas linhas em negrito') as médias dos tratamentos podem ser consideradas iguais,
+#                                                         se o intervalo tiver o 'zero' dentro dele. Por exemplo nos dados não transformados podemos dizer que as médias dos tratamentos"))
+                                                h3(strong("Se o intervalo de confiança(linha em negrito) contem o zero, dizemos que os tratamentos possuem médias iguais.")),
+                                                h2("Repare que com os", span("dados sem transformação",style="color:green"), "podemos dizer que", span("'há diferença' entre as médias de azeite-manteiga e margarina-manteiga.",style="color:green")),
+                                                h2("Já nos",span("dados tranformados, todas médias de tramentos são diferentes exceto por azeite-margarina que podem ser consideradas iguais.",style="color:blue")),
+                                                br(),
+                                                h2("Se lembrarmos que mesmo com a transformação dos dados os presupostos da anova não foram alcançados,
+                                                   vemos o quanto é perigoso fazer testes sem verificar seus presupostos e o absurdo que podem ser seus resultados.",style="color:red")
                                             
                                     
                                 )
                     ),
             tabItem(tabName="anover",
-                      selectInput("sela",h2("Anova"),
+                      selectInput("sela",h2("Anova"),selected = "Dados sem transformação",
                                   list("Dados Transformados"="dadost",
                                        "Dados sem transformação"="dadosn")
                                   ),
