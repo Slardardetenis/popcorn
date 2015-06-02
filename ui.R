@@ -60,9 +60,9 @@ body <- dashboardBody(
                       fluidPage(theme = shinytheme("flatly"),
                                   mainPanel(
                                               h1(strong("Suposições para Anova")),
-                                              h2("Para utilizarmos a analise de variancia temos antes que verificar se os dados possuem requisitos necessarios. As suposiçoes para o uso desta, são:"),
+                                              h2("Para utilizarmos a análise de variância temos antes que verificar se os dados possuem os requisitos necessários. As suposições para o uso desta, são:"),
                                               h2("I) A distribuição em cada grupo deve ser uma normal;"),
-                                              h2("II) Erros distribuidos segundo uma normal com média zero e variância constante constante igual em todos os grupos;"),
+                                              h2("II) Erros distribuídos segundo uma normal com média zero e variância constante igual em todos os grupos;"),
                                               h2("III) Independência dos erros."),
                                               br(),
                                               h2("Valores ajustados x Resíduos"),
@@ -70,21 +70,21 @@ body <- dashboardBody(
                                               h3("Apesar de uma parte dos dados ficar distante da outra vemos um padrão de 'cone'.",style="color:red"),
                                               h2("Vamos usar a transformação de box-cox para tentar acabar com essa tendencia nos resíduos."),
                                               plotOutput("boxcox"),
-                                              h2("Portando com lambda igual a zero temos uma transformação logarítimica."),
+                                              h2("Portando com lambda igual a zero temos uma transformação logarítmica."),
                                               h2("Valores ajustados x Resíduos"),
                                               plotOutput("res1"),
                                               h2("Sendo mais rigoro e usando o teste C de Cochran"),
                                               strong(verbatimTextOutput("coch")),
-                                              h2("Portanto os grupos não são homocedásticos.",style="color:red"),
+                                              h2("Portanto os grupos 'são' homocedásticos.",style="color:blue"),
                                               h2("qqnorm dos Resíduos"),
                                               plotOutput("res2"),
                                               h2("Os resíduos parecem ter distribuição normal."),
                                               h2("Usando o teste de Durbin-Watson para verificar se os erros são correlacionados ou não."),
                                               strong(verbatimTextOutput("durbin")),
-                                              h2("Vemos que os resíduos são correlacionados."),
+                                              h2("Vemos que os resíduos são 'não correlacionados.'",style="color:blue"),
                                               h2("Agora vamos ver como ficam cada um dos tratamentos no qqnorm."),
                                               plotOutput("allqq"),
-                                              h2(strong("Com as informaçoes acima vemos que nossos dados não cumprem todos pressupostos para Anova. Mesmo assim fizemos a análise para mostrar o estudo. Você pode ver clicando no menu 'ANOVA'",style="color:red"))
+                                              h2(strong("Com as informações acima vemos que nossos dados cumprem todos pressupostos para Anova. Clique no menu 'ANOVA' para ver os resultados.",style="color:blue"))
                                               
                                             )
                         
@@ -102,12 +102,11 @@ body <- dashboardBody(
 #                                               h2(strong("Uma importante observação, é lembrarmos que mesmo transformando os dados não conseguimos comprir os presupostos para a anova,
 #                                                         Observando os intervalos de confiança acima('essas linhas em negrito') as médias dos tratamentos podem ser consideradas iguais,
 #                                                         se o intervalo tiver o 'zero' dentro dele. Por exemplo nos dados não transformados podemos dizer que as médias dos tratamentos"))
-                                                h3(strong("Se o intervalo de confiança(linha em negrito) contem o zero, dizemos que os tratamentos possuem médias iguais.")),
+                                                h3(strong("Se o intervalo de confiança(linha em negrito) contém o zero, dizemos que os tratamentos possuem médias iguais.")),
                                                 h2("Repare que com os", span("dados sem transformação",style="color:green"), "podemos dizer que", span("'há diferença' entre as médias de azeite-manteiga e margarina-manteiga.",style="color:green")),
                                                 h2("Já nos",span("dados tranformados, todas médias de tramentos são diferentes exceto por azeite-margarina que podem ser consideradas iguais.",style="color:blue")),
                                                 br(),
-                                                h2("Se lembrarmos que mesmo com a transformação dos dados os presupostos da anova não foram alcançados,
-                                                   vemos o quanto é perigoso fazer testes sem verificar seus presupostos e o absurdo que podem ser seus resultados.",style="color:red")
+                                                h2("Através dos resultados acima podemos ver o perigo que nos submetemos ao fazer testes sem se preocupar com seus pressupostos.",style="color:red")
                                             
                                     
                                 )
